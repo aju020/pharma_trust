@@ -87,7 +87,7 @@ function AssignRoles() {
     // loader display
     if (loader) {
         return (
-            <div>
+            <div className='d-flex justify-content-center align-items-center ' >
                 <h1 className="wait">Loading...</h1>
             </div>
         )
@@ -185,37 +185,45 @@ function AssignRoles() {
 
     return (
         <div>
-            <span><b>Current Account Address:</b> {currentaccount}</span>
-            <span onClick={redirect_to_home} className="btn btn-outline-danger btn-sm">HOME</span>
-            <h4>Raw Material Suppliers:</h4>
-            <form onSubmit={handlerSubmitRMS}>
-                <input className="form-control-sm" type="text" onChange={handlerChangeAddressRMS} placeholder="Ethereum Address" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangeNameRMS} placeholder="Raw Material Supplier Name" required />
-                <input className="form-control-sm" type="text" onChange={handlerChangePlaceRMS} placeholder="Based In" required />
-                <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitRMS}>Register</button>
-            </form>
-            <table className="table table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Place</th>
-                        <th scope="col">Ethereum Address</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.keys(RMS).map(function (key) {
-                        return (
-                            <tr key={key}>
-                                <td>{RMS[key].id}</td>
-                                <td>{RMS[key].name}</td>
-                                <td>{RMS[key].place}</td>
-                                <td>{RMS[key].addr}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+            <div className='d-flex justify-content-between align-items-center m-3'>
+                <div>
+                    <h1 onClick={redirect_to_home} className=""><button className='btn btn-outline-primary btn-lg'>PharmaTrust </button> </h1>
+                </div>
+                <div>
+                    <span><b>Current Account Address:</b> {currentaccount}</span>
+                </div>
+            </div>
+            <div>
+                <h4>Raw Material Suppliers:</h4>
+                <form onSubmit={handlerSubmitRMS}>
+                    <input className="form-control-sm" type="text" onChange={handlerChangeAddressRMS} placeholder="Ethereum Address" required />
+                    <input className="form-control-sm" type="text" onChange={handlerChangeNameRMS} placeholder="Raw Material Supplier Name" required />
+                    <input className="form-control-sm" type="text" onChange={handlerChangePlaceRMS} placeholder="Based In" required />
+                    <button className="btn btn-outline-success btn-sm" onSubmit={handlerSubmitRMS}>Register</button>
+                </form>
+                <table className="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Place</th>
+                            <th scope="col">Ethereum Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.keys(RMS).map(function (key) {
+                            return (
+                                <tr key={key}>
+                                    <td>{RMS[key].id}</td>
+                                    <td>{RMS[key].name}</td>
+                                    <td>{RMS[key].place}</td>
+                                    <td>{RMS[key].addr}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
             <h4>Manufacturers:</h4>
             <form onSubmit={handlerSubmitMAN}>
                 <input className="form-control-sm" type="text" onChange={handlerChangeAddressMAN} placeholder="Ethereum Address" required />
