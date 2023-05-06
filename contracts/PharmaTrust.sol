@@ -202,7 +202,7 @@ contract PharmaTrust {
      // add new medicines to the stock
     function addMedicine(string memory _name,string memory _expdate, string memory _description)
         public
-        onlyByGov()
+        // onlyByGov()
     {
             require((rmsCount > 0) && (manCount > 0) && (distCount > 0) && (phCount > 0));
         medicineCount++;
