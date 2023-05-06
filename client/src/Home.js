@@ -22,9 +22,7 @@ function Home() {
                 <h1 >Pharma-Trust</h1>
             </div>
             <br />
-            {/* <h6>(Note: Here <u>Owner</u> is the person who deployed the smart contract on the blockchain)</h6>
-            <h5>Step 1: Owner Should Register Raw material suppliers ,Manufacturers, Distributors and Retailers</h5>
-            <h6>(Note: This is a one time step. Skip to step 2 if already done)</h6> */}
+
             <div className="content d-flex align-items-center justify-content-center">
                 <div className="content-wrapper ">
                     <div className="register">
@@ -55,13 +53,6 @@ function Home() {
                 </div>
             </div>
 
-            {/* <button onClick={redirect_to_roles} className="btn btn-outline-primary btn-sm">Register</button>
-            <br />
-            <h5>Step 2: Owner should order medicines</h5>
-            <button onClick={redirect_to_addmed} className="btn btn-outline-secondary btn-sm">Order Medicines</button>
-            <br />
-            <h5>Step 3: Update the Blockchain Network</h5>
-            <button onClick={redirect_to_supply} className="btn btn-outline-secondary btn-sm">Update</button> */}
             <br />
             <hr />
             <div className='d-flex justify-content-center align-items-center p-2'>
