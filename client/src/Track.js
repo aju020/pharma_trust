@@ -2,8 +2,50 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom"
 import Web3 from "web3";
 import PharmaTrustABI from "./artifacts/PharmaTrust.json"
+import QrScanner from 'qr-scanner';
+import QRCode from "react-qr-code";
 
 function Track() {
+    const [temp, setTemp] = useState("");
+    const [result, setResult] = useState("");
+    const [number, setNumber] = useState("0");
+
+    const handleClick=() =>{
+        setNumber(temp);
+      }
+
+      const readCode=(e)=>{
+        const file = e.target.files[0];
+            if (!file) {
+                return;
+            }
+            QrScanner.scanImage(file, { returnDetailedScanResult: true })
+                .then(result => console.log(result))
+                .catch(e => console.log(e));
+      }
+
+      const download =param=>event=>{
+        console.log(param);
+        const svg = document.getElementById("QRCode");
+        const svgData = new XMLSerializer().serializeToString(svg);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          const pngFile = canvas.toDataURL("image/png");
+          const downloadLink = document.createElement("a");
+    
+          downloadLink.download = `${param}`;
+          downloadLink.href = `${pngFile}`;
+          downloadLink.click();
+        };
+        img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+      }
+    
+
     const history = useHistory()
     useEffect(() => {
         loadWeb3();
@@ -441,6 +483,15 @@ function Track() {
                                         MedStage[key]
                                     }
                                 </td>
+                                <td>
+                                <QRCode
+                                    size={100}
+                                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                    value={MED[key].id}
+                                    viewBox={`0 0 256 256`}
+                                    id='QRCode'
+                                /> <button onClick={download(`${MED[key].id}`)}>Download</button>
+                                </td>
                             </tr>
                         )
                     })}
@@ -454,6 +505,7 @@ function Track() {
                 <form onSubmit={handlerSubmit}>
                     <input className="form-control-sm ml-2" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
                     <button className="btn btn-outline-primary btn-sm" onSubmit={handlerSubmit}>Track</button>
+                    <input type="file"  onChange={(e)=>readCode(e)}/>
                 </form>
             </div>
             <hr />
