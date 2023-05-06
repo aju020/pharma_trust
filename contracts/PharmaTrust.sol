@@ -122,7 +122,6 @@ contract PharmaTrust {
         return 0;
     }
 
-    //check Manufacturer available in blockchain
     function findMAN(address _address) private view returns (uint256) {
         require(manCount > 0);
         for (uint256 i = 1; i <= manCount; i++) {
@@ -131,7 +130,6 @@ contract PharmaTrust {
         return 0;
     }
 
-    //check distributor available in blockchain
     function findDIS(address _address) private view returns (uint256) {
         require(distCount > 0);
         for (uint256 i = 1; i <= distCount; i++) {
@@ -140,7 +138,6 @@ contract PharmaTrust {
         return 0;
     }
 
-    //check retailer available in blockchain
     function findRET(address _address) private view returns (uint256) {
         require(phCount > 0);
         for (uint256 i = 1; i <= phCount; i++) {
@@ -154,7 +151,7 @@ contract PharmaTrust {
         require(_medicineID > 0 && _medicineID <= medicineCount);
         uint256 _id = findRMS(msg.sender);
         require(_id > 0);
-        require(medAvailable[_medicineID].stage == STAGE.Init);
+        require(medAvailable[_medicineID].stage == STAGE.Init); //checking
         medAvailable[_medicineID].RMSid = _id;
         medAvailable[_medicineID].stage = STAGE.RawMaterialSupply;
     }

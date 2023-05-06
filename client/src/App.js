@@ -5,8 +5,6 @@ import AddMed from './AddMed';
 import Supply from './Supply'
 
 import Home from './Home';
-import { Helmet } from "react-helmet";
-
 
 function App() {
   return (

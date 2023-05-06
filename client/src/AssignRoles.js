@@ -11,7 +11,7 @@ function AssignRoles() {
     }, [])
     const [currentaccount, setCurrentaccount] = useState("");
     const [loader, setloader] = useState(true);
-    const [SupplyChain, setSupplyChain] = useState();
+    const [Data, setData] = useState();
     const [RMSname, setRMSname] = useState();
     const [MANname, setMANname] = useState();
     const [DISname, setDISname] = useState();
@@ -51,31 +51,31 @@ function AssignRoles() {
         const networkId = await web3.eth.net.getId();
         const networkData = PharmaTrustABI.networks[networkId];
         if (networkData) {
-            const supplychain = new web3.eth.Contract(PharmaTrustABI.abi, networkData.address);
-            setSupplyChain(supplychain);
+            const contract = new web3.eth.Contract(PharmaTrustABI.abi, networkData.address);
+            setData(contract);
             var i;
-            const rmsCtr = await supplychain.methods.rmsCount().call();
+            const rmsCtr = await contract.methods.rmsCount().call();
             const rms = {};
             for (i = 0; i < rmsCtr; i++) {
-                rms[i] = await supplychain.methods.RMS(i + 1).call();
+                rms[i] = await contract.methods.RMS(i + 1).call();
             }
             setRMS(rms);
-            const manCtr = await supplychain.methods.manCount().call();
+            const manCtr = await contract.methods.manCount().call();
             const man = {};
             for (i = 0; i < manCtr; i++) {
-                man[i] = await supplychain.methods.MAN(i + 1).call();
+                man[i] = await contract.methods.MAN(i + 1).call();
             }
             setMAN(man);
-            const disCtr = await supplychain.methods.distCount().call();
+            const disCtr = await contract.methods.distCount().call();
             const dis = {};
             for (i = 0; i < disCtr; i++) {
-                dis[i] = await supplychain.methods.DIST(i + 1).call();
+                dis[i] = await contract.methods.DIST(i + 1).call();
             }
             setDIS(dis);
-            const retCtr = await supplychain.methods.phCount().call();
+            const retCtr = await contract.methods.phCount().call();
             const ret = {};
             for (i = 0; i < retCtr; i++) {
-                ret[i] = await supplychain.methods.RET(i + 1).call();
+                ret[i] = await contract.methods.RET(i + 1).call();
             }
             setRET(ret);
             setloader(false);
@@ -135,7 +135,7 @@ function AssignRoles() {
     const handlerSubmitRMS = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.addRMS(RMSaddress, RMSname, RMSplace).send({ from: currentaccount });
+            var reciept = await Data.methods.addRMS(RMSaddress, RMSname, RMSplace).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
@@ -147,7 +147,7 @@ function AssignRoles() {
     const handlerSubmitMAN = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.addManufacturer(MANaddress, MANname, MANplace).send({ from: currentaccount });
+            var reciept = await Data.methods.addManufacturer(MANaddress, MANname, MANplace).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
@@ -159,7 +159,7 @@ function AssignRoles() {
     const handlerSubmitDIS = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.addDistributor(DISaddress, DISname, DISplace).send({ from: currentaccount });
+            var reciept = await Data.methods.addDistributor(DISaddress, DISname, DISplace).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
@@ -171,7 +171,7 @@ function AssignRoles() {
     const handlerSubmitRET = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.addRetailer(RETaddress, RETname, RETplace).send({ from: currentaccount });
+            var reciept = await Data.methods.addRetailer(RETaddress, RETname, RETplace).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }

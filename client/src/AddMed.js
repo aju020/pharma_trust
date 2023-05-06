@@ -12,7 +12,7 @@ function AddMed() {
 
     const [currentaccount, setCurrentaccount] = useState("");
     const [loader, setloader] = useState(true);
-    const [SupplyChain, setSupplyChain] = useState();
+    const [Data, setData] = useState();
     const [MED, setMED] = useState();
     const [MedName, setMedName] = useState();
     const [MedDate, setMedDate] = useState();
@@ -42,15 +42,15 @@ function AddMed() {
         const networkId = await web3.eth.net.getId();
         const networkData = PharmaTrustABI.networks[networkId];
         if (networkData) {
-            const supplychain = new web3.eth.Contract(PharmaTrustABI.abi, networkData.address);
-            setSupplyChain(supplychain);
+            const contract = new web3.eth.Contract(PharmaTrustABI.abi, networkData.address);
+            setData(contract);
             var i;
-            const medCtr = await supplychain.methods.medicineCount().call();
+            const medCtr = await contract.methods.medicineCount().call();
             const med = {};
             const medStage = [];
             for (i = 0; i < medCtr; i++) {
-                med[i] = await supplychain.methods.medAvailable(i + 1).call();
-                medStage[i] = await supplychain.methods.showStage(i + 1).call();
+                med[i] = await contract.methods.medAvailable(i + 1).call();
+                medStage[i] = await contract.methods.showStage(i + 1).call();
             }
             setMED(med);
             setMedStage(medStage);
@@ -83,7 +83,7 @@ function AddMed() {
     const handlerSubmitMED = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.addMedicine(MedName,MedDate, MedDes).send({ from: currentaccount });
+            var reciept = await Data.methods.addMedicine(MedName,MedDate, MedDes).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
