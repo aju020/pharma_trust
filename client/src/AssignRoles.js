@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from "web3";
-import SupplyChainABI from "./artifacts/PharmaTrust.json"
+import PharmaTrustABI from "./artifacts/PharmaTrust.json"
 import { useHistory } from "react-router-dom"
 
 function AssignRoles() {
@@ -49,9 +49,9 @@ function AssignRoles() {
         const account = accounts[0];
         setCurrentaccount(account);
         const networkId = await web3.eth.net.getId();
-        const networkData = SupplyChainABI.networks[networkId];
+        const networkData = PharmaTrustABI.networks[networkId];
         if (networkData) {
-            const supplychain = new web3.eth.Contract(SupplyChainABI.abi, networkData.address);
+            const supplychain = new web3.eth.Contract(PharmaTrustABI.abi, networkData.address);
             setSupplyChain(supplychain);
             var i;
             const rmsCtr = await supplychain.methods.rmsCount().call();
