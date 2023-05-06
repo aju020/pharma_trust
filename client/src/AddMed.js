@@ -94,8 +94,14 @@ function AddMed() {
     }
     return (
         <div>
-            <span><b>Current Account Address:</b> {currentaccount}</span>
-            <span onClick={redirect_to_home} className="btn btn-outline-danger btn-sm"> HOME</span>
+            <div className='d-flex justify-content-between align-items-center m-3'>
+                <div>
+                    <h1 onClick={redirect_to_home} className=""><button className='btn btn-outline-primary btn-lg'>PharmaTrust </button> </h1>
+                </div>
+                <div>
+                    <span><b>Current Account Address:</b> {currentaccount}</span>
+                </div>
+            </div>
             <br />
             <h5>Add Medicine Order:</h5>
             <form onSubmit={handlerSubmitMED}>
