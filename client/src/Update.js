@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom"
 import Web3 from "web3";
-import SupplyChainABI from "./artifacts/PharmaTrust.json"
+import PharmaTrustABI from "./artifacts/PharmaTrust.json"
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 
-function Supply() {
+function Update() {
     const history = useHistory()
     useEffect(() => {
         loadWeb3();
@@ -13,7 +13,7 @@ function Supply() {
 
     const [currentaccount, setCurrentaccount] = useState("");
     const [loader, setloader] = useState(true);
-    const [SupplyChain, setSupplyChain] = useState();
+    const [Data, setData] = useState();
     const [MED, setMED] = useState();
     const [MedStage, setMedStage] = useState();
     const [ID, setID] = useState();
@@ -43,17 +43,17 @@ function Supply() {
         const account = accounts[0];
         setCurrentaccount(account);
         const networkId = await web3.eth.net.getId();
-        const networkData = SupplyChainABI.networks[networkId];
+        const networkData = PharmaTrustABI.networks[networkId];
         if (networkData) {
-            const supplychain = new web3.eth.Contract(SupplyChainABI.abi, networkData.address);
-            setSupplyChain(supplychain);
+            const contract = new web3.eth.Contract(PharmaTrustABI.abi, networkData.address);
+            setData(contract);
             var i;
-            const medCtr = await supplychain.methods.medicineCount().call();
+            const medCtr = await contract.methods.medicineCount().call();
             const med = {};
             const medStage = [];
             for (i = 0; i < medCtr; i++) {
-                med[i] = await supplychain.methods.medAvailable(i + 1).call();
-                medStage[i] = await supplychain.methods.showStage(i + 1).call();
+                med[i] = await contract.methods.medAvailable(i + 1).call();
+                medStage[i] = await contract.methods.showStage(i + 1).call();
             }
             setMED(med);
             setMedStage(medStage);
@@ -81,7 +81,7 @@ function Supply() {
     const handlerSubmitRMSsupply = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.RMSsupply(ID).send({ from: currentaccount });
+            var reciept = await Data.methods.RMSsupply(ID).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
@@ -93,7 +93,7 @@ function Supply() {
     const handlerSubmitManufacturing = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.Manufacturing(ID).send({ from: currentaccount });
+            var reciept = await Data.methods.Manufacturing(ID).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
@@ -105,7 +105,7 @@ function Supply() {
     const handlerSubmitDistribute = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.Distribute(ID).send({ from: currentaccount });
+            var reciept = await Data.methods.Distribute(ID).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
@@ -117,7 +117,7 @@ function Supply() {
     const handlerSubmitRetail = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.Retail(ID).send({ from: currentaccount });
+            var reciept = await Data.methods.Retail(ID).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
@@ -129,7 +129,7 @@ function Supply() {
     const handlerSubmitSold = async (event) => {
         event.preventDefault();
         try {
-            var reciept = await SupplyChain.methods.sold(ID).send({ from: currentaccount });
+            var reciept = await Data.methods.sold(ID).send({ from: currentaccount });
             if (reciept) {
                 loadBlockchaindata();
             }
@@ -179,7 +179,7 @@ function Supply() {
 
             <div className="box-wrapper">
                 <div className="box">
-                    <h1>Update Status</h1>
+                    <h1 className='text-center'>Update Medicine Status</h1>
                     <Box>
                     <Box>
                         <Tabs value={tabIndex} onChange={handleTabChange}>
@@ -192,57 +192,57 @@ function Supply() {
                     <Box sx={{ padding: 2 }}>
                         {tabIndex === 0 && (
                         <Box>
-                            <h4>Enter the MEDICINE ID of the medicine for which the raw materials is to be supplied</h4>
+                            <p>Enter the MEDICINE ID of the medicine for which the raw materials is to be supplied</p>
                             <b>Note: (Only a registered Raw Material Supplier can perform this step)</b>
                             <form onSubmit={handlerSubmitRMSsupply}>
                                 <div className="d-flex flex-column justify-content-center align-items-center">
                                     <input className="form-control-sm mt-3" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                                    <button className="btn btn-outline-success btn-sm mt-3" onSubmit={handlerSubmitRMSsupply}>Supply</button>
+                                    <button className="btn btn-outline-primary btn-sm mt-3" onSubmit={handlerSubmitRMSsupply}>Supply</button>
                                 </div>
                             </form>
                         </Box>
                         )}
                         {tabIndex === 1 && (
                         <Box>
-                            <h4>Enter the MEDICINE ID of the medicine of which the manufacturing is done</h4>
+                            <p>Enter the MEDICINE ID of the medicine of which the manufacturing is done</p>
                             <b>Note: (Only a registered Manufacturer can perform this step)</b>
                                 <form onSubmit={handlerSubmitManufacturing}>
                                     <div className="d-flex flex-column justify-content-center align-items-center">
                                         <input className="form-control-sm mt-3" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                                        <button className="btn btn-outline-success btn-sm mt-3" onSubmit={handlerSubmitManufacturing}>Manufacture</button>
+                                        <button className="btn btn-outline-primary btn-sm mt-3" onSubmit={handlerSubmitManufacturing}>Manufacture</button>
                                     </div>
                                 </form>
                         </Box>
                         )}
                         {tabIndex === 2 && (
                         <Box>
-                            <h4>Enter the MEDICINE ID of the medicine of which the distribution is to be done after manufacturing</h4>
+                            <p>Enter the MEDICINE ID of the medicine of which the distribution is to be done after manufacturing</p>
                             <b>Note: (Only a registered Distributor can perform this step)</b>
                                 <form onSubmit={handlerSubmitDistribute}>
                                     <div className="d-flex flex-column justify-content-center align-items-center">
                                         <input className="form-control-sm mt-3" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                                        <button className="btn btn-outline-success btn-sm mt-3" onSubmit={handlerSubmitDistribute}>Distribute</button>
+                                        <button className="btn btn-outline-primary btn-sm mt-3" onSubmit={handlerSubmitDistribute}>Distribute</button>
                                     </div>
                                 </form>
                         </Box>
                         )}
                         {tabIndex === 3 && (
                         <Box>
-                            <h4>Enter the MEDICINE ID of the medicine which is kept for sale</h4>
+                            <p>Enter the MEDICINE ID of the medicine which is kept for sale</p>
                             <b>Note: (Only a registered Retailer can perform this step)</b>
                                 <form onSubmit={handlerSubmitRetail}>
                                     <div className="d-flex flex-column justify-content-center align-items-center">
                                     <input className="form-control-sm mt-3" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                                    <button className="btn btn-outline-success btn-sm mt-3" onSubmit={handlerSubmitRetail}>Retail</button>
+                                    <button className="btn btn-outline-primary btn-sm mt-3" onSubmit={handlerSubmitRetail}>Retail</button>
                                 </div>
 
-                                <h4>Enter the MEDICINE ID of the medicine which is sold</h4>
+                                <p>Enter the MEDICINE ID of the medicine which is sold</p>
                             <b>Note: (Only a registered Retailer can perform this step)</b>
                                 </form>
                                 <form onSubmit={handlerSubmitSold}>
                                     <div className="d-flex flex-column justify-content-center align-items-center">
                                         <input className="form-control-sm mt-3" type="text" onChange={handlerChangeID} placeholder="Enter Medicine ID" required />
-                                        <button className="btn btn-outline-success btn-sm mt-3" onSubmit={handlerSubmitSold}>Sold</button>
+                                        <button className="btn btn-outline-primary btn-sm mt-3" onSubmit={handlerSubmitSold}>Sold</button>
                                     </div>
                                 </form>
                         </Box>
@@ -255,4 +255,4 @@ function Supply() {
     )
 }
 
-export default Supply
+export default Update

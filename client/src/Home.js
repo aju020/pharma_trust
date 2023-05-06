@@ -11,7 +11,7 @@ function Home() {
         history.push('/addmed')
     }
     const redirect_to_supply = () => {
-        history.push('/supply')
+        history.push('/update')
     }
     const redirect_to_track = () => {
         history.push('/track')
@@ -60,15 +60,6 @@ function Home() {
                 <button onClick={redirect_to_track} className="btn btn-outline-primary btn-sm ml-3">Track Medicines</button>
             </div>
             <hr />
-            <div className="box-wrapper">
-                <div className="box">
-                    <div className="box-header">
-                        <h1>Update</h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic velit tempore dignissimos architecto debitis molestiae cum perferendis. Deleniti, blanditiis animi?</p>
-                    </div>
-                    
-                </div>
-            </div>
         </div>
     )
 }
