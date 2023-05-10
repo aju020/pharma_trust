@@ -71,7 +71,6 @@ The following are the major dependencies that have been used in this project:
 
 [Working Demo](https://www.loom.com/share/f77d8769e8174228b9ee14533d9d4d61)
 
-https://user-images.githubusercontent.com/76904393/226411140-7c2fdc7c-adf7-418f-b31e-441d0833a21b.mp4
 
 ## Project
 ![Logo](https://github.com/shinoj-exe/pharma_trust/blob/master/Screenshots/CoverPage.jpg?raw=true)
